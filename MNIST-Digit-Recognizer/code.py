@@ -1,4 +1,3 @@
-# %% [code]
 #importing dependencies and loading files from kaggle
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.models import Sequential
@@ -13,7 +12,6 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
 
-# %% [code]
 #setting up training and testing datasets
 train_ds = pd.read_csv("/kaggle/input/digit-recognizer/train.csv")
 test_ds = pd.read_csv("/kaggle/input/digit-recognizer/test.csv")
@@ -39,14 +37,11 @@ test_features = test_features.reshape(28000,28,28,1)
 train_features = train_features / 255
 test_features = test_features / 255
 
-# %% [code]
 #test split and one-hot encoding
 train_features, val_features, train_label, val_label = train_test_split(train_features, train_label, test_size=0.2, random_state=1)
 train_label = to_categorical(train_label, 10)
 val_label = to_categorical(val_label, 10)
 
-
-# %% [code]
 #building the model
 model = Sequential()
 model.add(Conv2D(filters=64,kernel_size=(3,3),input_shape=(28,28,1),activation='relu'))
@@ -55,9 +50,7 @@ model.add(Flatten())
 model.add(Dense(10,activation='softmax'))
 model.compile(loss='categorical_crossentropy',optimizer='adam' ,metrics=['accuracy'])
 
-# %% [code]
 result = model.fit(x=train_features,y=train_label,epochs=3,validation_data = (val_features,val_label))
 
-# %% [code]
 result.history
 #98% accuracy
